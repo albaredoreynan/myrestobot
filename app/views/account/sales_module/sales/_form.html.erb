@@ -1,0 +1,57 @@
+<%= semantic_form_for([:account, :sales_module, @sale], :html => { :class => "form-horizontal" }) do |sale_f| %>
+  <%= sale_f.semantic_errors %>
+  <div class="well">
+    <%= sale_f.input :branch_id, :as => :select, :collection => Branch.all.map{ |b| [ b.name, b.id ] } %>
+    <%= sale_f.input :sale_date, :label => "Date", :as => :string, :input_html => { :class => "datepicker" }, :required => true %>
+  </div>
+
+  <div class="well">
+	<h3>Sales by Category</h3>
+	  <%= sale_f.semantic_fields_for :sale_sale_categories do |ssc| %>
+      <div>
+        <%= ssc.hidden_field :sale_category_id, :value => ssc.object.sale_category_id %>
+        <%= ssc.label ssc.object.sale_category.name %>
+        <%= ssc.text_field :amount, :class => :sale_category %>
+      </div>
+	  <% end %>
+    <%= sale_f.input :vat %>
+    <%= sale_f.input :service_charge %>
+  </div>
+
+  <div class="well">
+	<h3>Sales by Settlement</h3>
+    <%= sale_f.semantic_fields_for :sale_settlement_types do |sts| %>
+      <div>
+        <%= sts.hidden_field :settlement_type_id, :value => sts.object.settlement_type_id %>
+        <%= sts.label sts.object.settlement_type.name %>
+        <%= sts.text_field :amount, :class => :settlement_type %>
+      </div>
+	  <% end %>
+    <%= sale_f.input :cash_in_drawer %>
+    <%= sale_f.input :gc_redeemed %>
+    <%= sale_f.input :delivery_sales %>
+  </div>
+
+  <div class="well">
+	<h3>Statistics</h3>
+    <%= sale_f.input :customer_count %>
+    <%= sale_f.input :transaction_count %>
+    <%= sale_f.input :delivery_transaction_count %>
+    <%= sale_f.input :credit_card_transaction_count %>
+  </div>
+
+  <div class="well">
+	<h3>Cash for Deposit</h3>
+    <%= sale_f.input :gc_sales %>
+    <%= sale_f.input :other_income %>
+
+  </div>
+  <%= sale_f.submit "Submit", :class => 'btn btn-light-blue large' %>
+<% end %>
+
+<script>
+$(function(){
+	$(".datepicker").datepicker();
+});
+
+</script>

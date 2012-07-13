@@ -1,0 +1,46 @@
+<%= render :partial => "/account/reports_module/partials/container_header" %>
+        <div class="container-fluid">
+	      <div class="btn-toolbar">
+			<div class="btn-group btns-export pull-right">
+			  <a href="javascript:{}" onclick="<%= export_to_csv_javascript(@sales_grid) %>" class="btn"><i class="icon-file"></i> Export to CSV</a>
+			  <a href="javascript:{}" onclick="<%= export_to_csv_javascript(@sales_grid) %>" class="btn"><i class="icon-file"></i> Export to PDF</a>
+			</div>
+		  </div>
+        </div>
+        <br/>
+		<%= grid(@sales_grid, :class => "row-fluid") do |g|
+			g.action_column
+        g.column :column_name => 'Sale Date' do |sale|
+    			sale.created_at.strftime("%-d-%b-%Y")
+  			end
+        
+  			g.column :column_name => 'Branch', :attribute_name => "name", :model_class => Branch  do |sale|
+    			sale.branch.name
+  			end
+  			
+  			g.column :column_name => 'Net Sales' do |sale|
+    			sale.net_sales
+  			end
+  			
+  			g.column :column_name => 'Vat' do |sale|
+    			sale.vat
+  			end
+        
+        g.column :column_name => 'Total Revenue' do |sale|
+    			sale.total_revenues
+  			end
+  			
+  			g.column :column_name => 'Settlement Type Sales' do |sale|
+    			sale.total_settlement_type_sales
+  			end
+  			
+  			g.column :column_name => 'Cash For Deposit' do |sale|
+    			sale.cash_for_deposit
+  			end
+  			
+  			g.column :column_name => 'View DSR' do |sale|
+    			link_to "<i class='icon-eye-open'></i> View".html_safe, account_sales_module_sale_path(sale), :class => "btn btn-mini"
+  			end
+		end -%>
+		<%= include_wice_grid_assets %>
+<%= render :partial => "/account/reports_module/partials/container_footer" %>

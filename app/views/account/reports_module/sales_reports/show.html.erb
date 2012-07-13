@@ -1,0 +1,16 @@
+<%= render :partial => "/account/setup_module/sales_setup/partials/container_header" %>
+        <div class="container-fluid">
+	      <div class="btn-toolbar">
+		    <div class="btn-group pull-right">
+			  <a href="<%= new_account_setup_module_sales_setup_settlement_type_path %>" class="btn btn-light-blue">
+			    <i class="icon-plus icon-white"></i> Create New Settlement Type
+			  </a>
+			</div>
+			
+		    <div class="btn-group btns-export pull-right">
+			  <a href="javascript:{}" onclick="<%= export_to_csv_javascript(@settlement_types_grid) %>" class="btn"><i class="icon-file"></i> Export to CSV</a>
+			  <a href="javascript:{}" onclick="<%= export_to_csv_javascript(@settlement_types_grid) %>" class="btn"><i class="icon-file"></i> Export to PDF</a>
+			</div>
+		  </div>
+        </div>
+        <br/>

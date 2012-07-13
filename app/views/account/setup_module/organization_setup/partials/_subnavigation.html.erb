@@ -1,0 +1,7 @@
+<%= tabs_tag(:builder => NavTabBuilder, :open_tabs => { :class => "page-tabs nav nav-tabs" }) do |tab| %>
+  <%= tab.clients "Companies", account_setup_module_organization_setup_clients_path %>
+  <%= tab.concepts "Restaurants", account_setup_module_organization_setup_concepts_path %>
+  <%= tab.branches "Branches", account_setup_module_organization_setup_branches_path %>
+  <%= tab.roles "Roles", account_setup_module_organization_setup_roles_path %>
+  <%= tab.client_users "Users", account_setup_module_organization_setup_client_users_path %>
+<% end %>

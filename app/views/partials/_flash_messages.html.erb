@@ -1,0 +1,11 @@
+<% flash.each do |key, value| %>
+  <!-- Handle Devise alerts -->
+  <% if key.to_s == "alert" %>
+    <% key = "error" %>
+  <% end %>
+  
+  <div class="alert alert-<%= key %>">
+    <%= value %>
+  </div>
+<% end %>
+<br/>

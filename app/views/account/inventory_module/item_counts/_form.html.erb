@@ -1,0 +1,17 @@
+<%= semantic_form_for([:account, :inventory_module, @item_count], :html => { :class => "form-horizontal" }) do |item_count_f| %>
+  <%= item_count_f.semantic_errors %>
+  <div class="well">
+    
+  </div>
+  <%= item_count_f.submit "Submit", :class => 'btn btn-light-blue large' %>
+<% end %>
+
+
+
+<script>
+
+$(function(){
+	$(".datetimepicker").datetimepicker();
+});
+
+</script>

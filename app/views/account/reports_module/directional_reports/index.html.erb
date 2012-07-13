@@ -1,0 +1,84 @@
+<%= render :partial => "/account/reports_module/partials/container_header" %>
+        <div class="container-fluid">
+	      <div class="btn-toolbar">
+        	<div class="btn-group pull-right">
+			</div>
+			<div class="btn-group btns-export pull-right">
+			</div>
+		  </div>
+        </div>
+        <div class="tab-content">
+	        <div class="tab-pane active">
+            <div class="container">
+              <h2>Directional Reports</h2>
+                <table class="table table-striped table-bordered table-condensed" >
+                  <tr>
+                    <th>Net Sales (Category)</th>
+                    <th></th>
+                    <th>Percentage</th>
+                  </tr>
+                  <% directional_categories_percentage = Array.new %>
+                  <% last_year = @directional.last_year %>
+                  <% @directional.net_sales.each do |category, net_sale| %>
+                    <tr>
+                      <td><%= category%></td>
+                      <td><%= number_to_currency(net_sale, :unit => peso_sign)  %></td>
+                        <% amount_percentage = net_sale.to_f.percent_of(@directional.net_sale_total)  %>
+                        <% directional_categories_percentage << amount_percentage %>
+                      <td><%= number_to_percentage(amount_percentage, :precision => 2) %></td>
+                    </tr>
+                  <% end %>  
+                  <tr>
+                    <th>Total</th>
+                    <td><%= number_to_currency(@directional.net_sale_total, :precision => 2, :unit => peso_sign) %></td>
+                    <td><%= number_to_percentage(directional_categories_percentage.inject(:+), :precision => 2) %></td>
+                  </tr>
+                  
+                  <tr><td colspan="3"></td></tr>
+                  
+                  <tr>
+                    <th> Net Sales </th>
+                    <th> MTD</th>
+                    <th> Last Year</th>
+                  </tr>
+                  
+                  <tr>
+                    <th>Total</th>
+                    <td><%= monetary= number_to_currency(@directional.net_sale_total, :precision => 2, :unit => peso_sign) %></td>
+                    <td><%= number_to_currency(last_year.net_sale_total, :precision => 2, :unit => peso_sign) %></td>
+                  </tr>
+                  
+                  <tr>
+                    <td> Customer Count </td>
+                    <td><%= number_with_precision(@directional.customer_count, :precision => 2, :delimiter => ',') %></td>
+                    <td><%= number_with_precision(last_year.customer_count, :precision => 2, :delimiter => ',') %></td>
+                  </tr>
+                  
+                  <tr>
+                    <td> Per Person Ave </td>
+                    <td><%= number_with_precision(@directional.per_person_ave, :precision => 2, :delimiter => ',') %></td>
+                    <td><%= number_with_precision(last_year.per_person_ave, :precision => 2, :delimiter => ',') %></td>
+                  </tr>
+                  
+                  <tr>
+                    <td>Transaction Count</td>
+                    <td><%= number_with_precision(@directional.transaction_count, :precision => 2, :delimiter => ',') %></td>
+                    <td><%= number_with_precision(last_year.transaction_count, :precision => 2, :delimiter => ',') %></td>
+                  </tr>
+                  
+                  <tr>
+                    <td>Per Transaction Ave</td>
+                    <td><%= number_with_precision(@directional.per_trans_ave, :precision => 2, :delimiter => ',') %></td>
+                    <td><%= number_with_precision(last_year.per_trans_ave, :precision => 2, :delimiter => ',') %></td>
+                  </tr>
+                  
+                </table>
+                
+
+        
+                  
+               </div>
+            </div>
+          </div>
+<%= render :partial => "/account/reports_module/partials/container_footer" %>
+

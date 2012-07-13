@@ -1,0 +1,16 @@
+<%= semantic_form_for([:account, :setup_module, :purchases_setup, @supplier], :html => { :class => "form-horizontal" }) do |supplier_f| %>
+  <%= supplier_f.semantic_errors %>
+  <div class="well">
+    <%= supplier_f.input :name %>
+    <%= supplier_f.input :description %>
+    <%= supplier_f.input :address %>
+    <%= supplier_f.input :tin %>
+
+    <%= supplier_f.input :contact_person %>
+    <%= supplier_f.input :contact_title %>
+    <%= supplier_f.input :contact_number %>
+    <%= supplier_f.input :email %>
+  </div>
+  <%= link_to "Cancel".html_safe, account_setup_module_purchases_setup_suppliers_path, :class => 'btn' %>
+  <%= supplier_f.submit "Submit", :class => 'btn btn-light-blue large' %>
+<% end %>

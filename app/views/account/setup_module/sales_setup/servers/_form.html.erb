@@ -1,0 +1,9 @@
+<%= semantic_form_for([:account, :setup_module, :sales_setup, @server], :html => { :class => "form-horizontal" }) do |server_f| %>
+  <%= server_f.semantic_errors %>
+  <div class="well">
+	<%= server_f.input :branch_id, :as => :select, :collection => Branch.all.map{ |b| [ b.name, b.id ] } %>
+    <%= server_f.input :name %>
+  </div>
+  <%= link_to "Cancel".html_safe, account_setup_module_sales_setup_servers_path, :class => 'btn' %>
+  <%= server_f.submit "Submit", :class => 'btn btn-light-blue large' %>
+<% end %>

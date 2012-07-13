@@ -1,0 +1,56 @@
+<%= render :partial => "/account/setup_module/organization_setup/partials/container_header" %>
+        <div class="container-fluid">
+	      <div class="btn-toolbar">
+        <% if can? :create, Concept %>	
+        	<div class="btn-group pull-right">
+			      <a href="<%= new_account_setup_module_organization_setup_concept_path %>" class="btn btn-light-blue">
+			        <i class="icon-plus icon-white"></i> Create New Restaurant
+			      </a>
+			    </div>
+			  <% end %>
+			<div class="btn-group btns-export pull-right">
+			  <a href="javascript:{}" onclick="<%= export_to_csv_javascript(@concepts_grid) %>" class="btn"><i class="icon-file"></i> Export to CSV</a>
+			  <a href="javascript:{}" onclick="<%= export_to_csv_javascript(@concepts_grid) %>" class="btn"><i class="icon-file"></i> Export to PDF</a>
+			</div>
+		  </div>
+        </div>
+        <br/>
+		<%= grid(@concepts_grid, :class => "row-fluid") do |g|
+			g.action_column
+
+  			g.column :column_name => "Name", :attribute_name => "name" do |concept|
+    			concept.name
+  			end
+
+  			g.column :column_name => "Address", :attribute_name => "address" do |concept|
+    			concept.address
+  			end
+
+  			g.column :column_name => "Contact Number", :attribute_name => "contact_number" do |concept|
+    			concept.contact_number
+  			end
+
+            g.column :column_name => "Company", :model_class => "Client", :attribute_name => "name" do |concept|
+    			concept.client.name
+  			end
+
+  			g.column do |concept|
+    			link_to "<i class='icon-eye-open'></i> View".html_safe, account_setup_module_organization_setup_concept_path(concept), :class => "btn btn-mini"
+  			end
+        
+        if can? :edit, Concept
+    			g.column do |concept|
+				  link_to "<i class='icon-edit'></i> Edit".html_safe, edit_account_setup_module_organization_setup_concept_path(concept), :class => "btn btn-mini"
+    			end
+        end
+        
+        if can? :delete, Concept
+    			g.column do |concept|
+				  link_to "<i class='icon-trash icon-white'></i> Delete".html_safe, account_setup_module_organization_setup_concept_path(concept), :confirm => 'Are you sure?', :method => :delete, :class => "btn btn-mini btn-danger"
+    			end
+  			end
+
+		end -%>
+
+		<%= include_wice_grid_assets %>
+<%= render :partial => "/account/setup_module/organization_setup/partials/container_footer" %>

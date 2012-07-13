@@ -1,0 +1,52 @@
+<%= semantic_form_for([:account, :inventory_module, @endcount], :html => { :class => "form-horizontal" }) do |endcount_f| %>
+  <%= endcount_f.semantic_errors %>
+  <div class="well">
+    <%= endcount_f.input :entry_date, :label => "As of", :as => :string, :input_html => { :value => Date.today.strftime( "%m/%d/%Y" ) } %>
+    <%= endcount_f.input :branch_id, :as => :select, :collection => Branch.all.map{ |b| [ b.name, b.id ] } %>
+  </div>
+  
+	<table class="table">
+		<thead>
+			<th>Subcategory</th>
+			<th>Item</th>
+			<th>Unit</th>
+			<th>Count</th>
+			<th>New Count</th>
+		</thead>
+		<tbody>
+			<%= endcount_f.semantic_fields_for :item_counts do |ic| %>
+				<tr>
+				    <td>
+						<%= ic.object.item.subcategory.name %>
+					</td>
+	  				<td>
+      					<%= ic.hidden_field :item_id, :value => ic.object.item_id %>
+                <%= ic.object.item.name %>
+	  				</td>
+					<td>
+						<%= ic.object.item.unit.name %>
+					</td>
+					<td>
+						<%= ic.object.stock_count %>
+					</td>
+	  				<td>
+	  					<%= ic.text_field :stock_count %>
+	  				</td>
+	        	</tr>
+			<% end %>
+	    </tbody>
+	</table>
+	
+  <%= endcount_f.submit "Submit", :class => 'btn btn-light-blue large' %>
+<% end %>
+
+
+
+<script>
+
+$(function(){
+	// Date time picker loader
+	$(".datetimepicker").datetimepicker();
+});
+
+</script>

@@ -1,0 +1,5 @@
+<%= tabs_tag(:builder => NavTabBuilder, :open_tabs => { :class => "page-tabs nav nav-tabs" }) do |tab| %>
+  <%= tab.sale_categories "Categories", account_setup_module_sales_setup_sale_categories_path %>
+  <%= tab.settlement_types "Settlement Types", account_setup_module_sales_setup_settlement_types_path %>
+  <%= tab.servers "Servers", account_setup_module_sales_setup_servers_path %>
+<% end %>

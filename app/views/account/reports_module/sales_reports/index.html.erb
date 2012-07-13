@@ -1,0 +1,41 @@
+<%= render :partial => "/account/reports_module/partials/container_header" %>
+        <div class="container-fluid">
+	      <div class="btn-toolbar">
+		  </div>
+        </div>
+        <br/>
+		<%= grid(@sales_grid, :class => "row-fluid") do |g|
+            g.column :column_name => 'Sale Date' do |sale|
+    			sale.created_at.strftime("%-d-%b-%Y")
+  			end
+        
+  			g.column :column_name => 'Branch', :attribute_name => "name", :model_class => Branch  do |sale|
+    			sale.branch.name
+  			end
+  			
+  			g.column :column_name => 'Net Sales' do |sale|
+    			number_to_currency(sale.net_sales, :unit => peso_sign )
+  			end
+  			
+  			g.column :column_name => 'Vat' do |sale|
+    			number_to_currency(sale.vat, :unit => peso_sign )
+  			end
+        
+            g.column :column_name => 'Total Revenue' do |sale|
+    			number_to_currency(sale.total_revenues, :unit => peso_sign )
+  			end
+  			
+  			g.column :column_name => 'Settlement Type Sales' do |sale|
+    			number_to_currency(sale.total_settlement_type_sales, :unit => peso_sign )
+  			end
+  			
+  			g.column :column_name => 'Cash For Deposit' do |sale|
+    			number_to_currency(sale.cash_for_deposit, :unit => peso_sign )
+  			end
+  			
+  			g.column :column_name => 'View DSR' do |sale|
+    			link_to "<i class='icon-eye-open'></i> View".html_safe, account_sales_module_sale_path(sale), :class => "btn btn-mini"
+  			end
+		end -%>
+		<%= include_wice_grid_assets %>
+<%= render :partial => "/account/reports_module/partials/container_footer" %>

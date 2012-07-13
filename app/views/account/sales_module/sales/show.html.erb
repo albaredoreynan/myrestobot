@@ -1,0 +1,213 @@
+<%= render :partial => "/account/reports_module/partials/container_header" %>
+  <div class="container-fluid">
+        <br/>
+    <h2>Daily Sales Report</h2>
+      <p>
+        <table class="table table-striped table-bordered table-condensed" >
+          <tr>
+            <th>Concept</th>
+            <th>Branch</th>
+            <th>Date</th>
+            <th>Download As</th>
+          </tr>
+          <tr>
+            <td ><%= @sale.branch.concept.name %></td>
+            <td ><%= @sale.branch.name %></td>
+            <td ><%= @sale.created_at.strftime("%-d-%b-%Y") %></td>
+            <td ><%= link_to 'PDF', :format => :pdf %></td>
+          </tr>
+        </table>
+        <br/>
+        <table  class="table table-striped table-bordered table-condensed">
+          <tr>
+            <th>Sale by Category</th>
+            <th>Amount</th>
+            <th>Percentage</th>
+            <th>MTD Amount</th>
+            <th>MTD Percentage</th>
+          </tr>
+          <tr>
+            <% sale_categories_percentage = Array.new %>
+            <% @sale.sale_sale_categories.each do |scr| %>
+              <tr>
+                <td><%= scr.sale_category.name %> </td>
+                <td><%= number_to_currency(scr.amount, :unit => peso_sign) %></td>
+                  <% amount_percentage = scr.amount.to_f.percent_of(@sale.net_sales) %>
+                  <% sale_categories_percentage << amount_percentage %>
+                <td><%= number_to_percentage(amount_percentage, :precision => 2) %></td>
+                <td></td>
+                <td></td>
+              </tr>
+            <% end %>
+          </tr>
+          
+          <tr><td colspan="5"></td></tr>
+          <tr>
+            <th>Net Sales</th>
+            <th><%= number_to_currency(@sale.net_sales, :unit => peso_sign) %></th>
+            <th><%= number_to_percentage(sale_categories_percentage.inject(:+), :precision => 2) %></th>
+            <th></th>
+            <th></th>
+          </tr>
+          
+          <tr><td colspan="5"></td></tr>
+          <% revenues_percentage = Array.new %>
+          
+          <tr>
+            <td>VAT</td>
+            <td><%= number_to_currency(@sale.vat, :unit => peso_sign) %></td>
+            <% vat_percentage = @sale.vat.to_f.percent_of(@sale.total_revenues) %>
+            <% revenues_percentage << vat_percentage %>            
+            <td></td>
+            <td align="center"><%= number_to_currency(@sale.month_to_date_vat, :unit => peso_sign) %></td>
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td>Service Charge</td>
+            <td align="center"><%= number_to_currency(@sale.service_charge, :unit => peso_sign) %></td>
+              <% service_charge_percentage = @sale.service_charge.to_f.percent_of(@sale.total_revenues) %>
+              <% revenues_percentage << service_charge_percentage %>
+            <td></td>
+            <td><%= number_to_currency(@sale.month_to_date_service_charge, :unit => peso_sign) %></td>
+            <td></td>
+          </tr>
+          
+          <tr><td colspan="5"></td></tr>
+          
+          <tr>
+            <th>Total Revenues</th>
+            <th align="center"><%= number_to_currency(@sale.total_revenues, :unit => peso_sign) %></th>
+              <% service_charge_percentage = @sale.service_charge.to_f.percent_of(@sale.total_revenues)%>
+              <% revenues_percentage << service_charge_percentage %>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+          <tr><td colspan="5"></td></tr>
+          <tr>
+          <th colspan="5">Sale by Settlement Type</th>
+          </tr>
+          
+          <tr>
+          <% settlement_type_percentage = Array.new %>
+          <% @sale.sale_settlement_types.each do |sts| %>
+            <tr>
+              <td><%= sts.settlement_type.name %></td>
+              <td><%= monetary= number_to_currency(sts.amount, :unit => peso_sign) %></td>
+                <% sts_amount_percentage = sts.amount.to_f.percent_of(@sale.total_settlement_type_sales) %>
+                <% settlement_type_percentage << sts_amount_percentage %>
+              <td><%= number_to_percentage(sts_amount_percentage, :precision => 2) %>
+              <td></td>
+              <td></td>
+            </tr>
+           <% end %>
+         </tr>  
+         <tr>
+          <td>Cash</td>
+          <td><%= number_to_currency(@sale.cash_in_drawer, :unit => peso_sign) %> </td>
+           <% cash_in_percentage = @sale.cash_in_drawer.to_f.percent_of(@sale.total_settlement_type_sales) %>
+           <% settlement_type_percentage << cash_in_percentage %>
+          <td><%= number_to_percentage(cash_in_percentage, :precision => 2)%> </td>
+          <td><%= number_to_currency(@sale.month_to_date_cash_in_drawer, :unit => peso_sign)%> </td>
+          <td></td>
+         </tr>
+         <tr>
+          <td>GC Redeemed</td>
+          <td><%= number_to_currency(@sale.gc_redeemed, :unit => peso_sign) %></td>
+           <% gc_redeemed_percentage = @sale.gc_redeemed.to_f.percent_of(@sale.total_settlement_type_sales) %>
+           <% settlement_type_percentage << gc_redeemed_percentage %>
+          <td><%= number_to_percentage(gc_redeemed_percentage, :precision => 2) %></td>
+          <td><%= number_to_currency(@sale.month_to_date_gc_redeemed, :unit => peso_sign) %></td>
+          <td></td>
+         </tr>  
+        <tr>
+          <td>Delivery'
+          <td><%= number_to_currency(@sale.delivery_sales, :unit => peso_sign) %></td>
+           <% delivery_sale_percentage = @sale.delivery_sales.to_f.percent_of(@sale.total_settlement_type_sales) %>
+           <% settlement_type_percentage << delivery_sale_percentage %>
+          <td><%= number_to_percentage(delivery_sale_percentage, :precision => 2) %></td>
+          <td><%= number_to_currency(@sale.month_to_date_delivery_sales, :unit => peso_sign) %></td>
+          <td></td>
+        </tr>  
+        <tr>
+          <th>Total</th>
+          <th><%= number_to_currency(@sale.total_settlement_type_sales, :unit => peso_sign) %></th>
+          <th><%= number_to_percentage(settlement_type_percentage.inject(:+), :precision => 2) %></th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr><td colspan="5"></td></tr>
+        <tr>
+          <th colspan="5">Statistics</th>
+        </tr>
+        <tr>
+          <td>Customer Count</td>
+          <td><%= @sale.customer_count %></td>
+          <td></td>
+          <td><%= @sale.month_to_date_customer_count %></td>
+          <td></td>
+        </tr>
+        <tr>  
+          <td>Per Person Average</td>
+          <td><%= @sale.per_person_ave %></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Transaction Count</td>
+          <td><%= @sale.transaction_count %></td>
+          <td></td>
+          <td><%= @sale.month_to_date_transaction_count %></td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>Per Trans Average</td>
+          <td><%= @sale.per_trans_ave %></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr><td colspan="5"></td></tr>
+        <tr>
+          <th colspan="5">Cash For Deposit</th>
+        </tr>
+        
+        <tr>
+          <td>Cash in Drawer</td>
+          <td><%= number_to_currency(@sale.cash_in_drawer, :unit => peso_sign) %></td>
+          <td></td>
+          <td><%= number_to_currency(@sale.month_to_date_cash_in_drawer, :unit => peso_sign) %></td>
+          <td></td>  
+        </tr>
+        
+        <tr>
+          <td>GC Sales</td>
+          <td><%= number_to_currency(@sale.gc_sales, :unit => peso_sign) %></td>
+          <td></td>
+          <td><%= number_to_currency(@sale.month_to_date_gc_sales, :unit => peso_sign) %></td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <td>Other Income</td>
+          <td><%= number_to_currency(@sale.other_income, :unit => peso_sign) %></td>
+          <td></td>
+          <td><%= number_to_currency(@sale.month_to_date_other_income, :unit => peso_sign) %></td>
+          <td></td>
+        </tr>
+        
+        <tr>
+          <th>Total</th>
+          <th><%= number_to_currency(@sale.cash_for_deposit, :unit => peso_sign) %></th>
+          <th></th>
+          <th><%= number_to_currency(@sale.month_to_date_cash_for_deposit, :unit => peso_sign) %></th>
+          <th></th>
+        </tr>
+       </table>
+      </p>
+  </div>
+<%= render :partial => "/account/reports_module/partials/container_footer" %>
+

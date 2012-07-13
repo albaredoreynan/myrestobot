@@ -1,0 +1,50 @@
+<%= render :partial => "/account/inventory_module/partials/container_header" %>
+<div class="container">
+	<div class="container">
+		<%= link_to "Back".html_safe, account_inventory_module_endcounts_path, :class => 'btn' %>
+	</div>
+	<hr/>
+	<div class="well">
+		<dl class="dl-horizontal">
+			<dt>Date</dt>
+		    <dd><%= @endcount.entry_date %></dd>
+		    <dt>Branch</dt>
+		    <dd><%= @endcount.branch.name %></dd>
+		</dl>
+	</div>
+	<table class="table">
+		<thead>
+			<th>Subcategory</th>
+			<th>Item</th>
+			<th>Unit</th>
+			<th>Count</th>
+		</thead>
+		<tbody>
+			<% @endcount.item_counts.each do |ic| %>
+			<tr>
+			    <td>
+					<%= ic.item.subcategory.name %>
+				</td>
+  				<td>
+                    <%= ic.item.name %>
+  				</td>
+				<td>
+					<%= ic.item.unit.name %>
+				</td>
+				<td>
+					<%= ic.stock_count %>
+				</td>
+        	</tr>
+		<% end %>
+    	</tbody>
+	</table>
+	<hr/>
+	<div class="container">
+		<%= link_to "Back".html_safe, account_inventory_module_endcounts_path, :class => 'btn' %>
+	</div>
+	<br/>
+</div>
+
+
+
+<%= render :partial => "/account/inventory_module/partials/container_footer" %>

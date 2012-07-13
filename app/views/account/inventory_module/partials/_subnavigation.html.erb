@@ -1,0 +1,4 @@
+<%= tabs_tag(:builder => NavTabBuilder, :open_tabs => { :class => "page-tabs nav nav-tabs" }) do |tab| %>
+  <%= tab.endcounts_new "New Endcount Entry", new_account_inventory_module_endcount_path %>
+  <%= tab.endcounts "Endcount Entries", account_inventory_module_endcounts_path %>
+<% end %>

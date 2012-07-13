@@ -1,0 +1,8 @@
+<%= semantic_form_for([:account, :setup_module, :organization_setup, @role], :html => { :class => "form-horizontal" }) do |role_f| %>
+  <%= role_f.semantic_errors %>
+  <div class="well">
+    <%= role_f.input :name %>
+  </div>
+  <%= link_to "Cancel".html_safe, account_setup_module_organization_setup_concepts_path, :class => 'btn' %>
+  <%= role_f.submit "Submit", :class => 'btn btn-light-blue large' %>
+<% end %>

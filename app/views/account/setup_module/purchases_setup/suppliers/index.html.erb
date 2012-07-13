@@ -1,0 +1,52 @@
+<%= render :partial => "/account/setup_module/purchases_setup/partials/container_header" %>
+        <div class="container-fluid">
+	      <div class="btn-toolbar">
+		    <div class="btn-group pull-right">
+			  <a href="<%= new_account_setup_module_purchases_setup_supplier_path %>" class="btn btn-light-blue">
+			    <i class="icon-plus icon-white"></i> Create New Supplier
+			  </a>
+			</div>
+			
+		    <div class="btn-group btns-export pull-right">
+			  <a href="javascript:{}" onclick="<%= export_to_csv_javascript(@suppliers_grid) %>" class="btn"><i class="icon-file"></i> Export to CSV</a>
+			  <a href="javascript:{}" onclick="<%= export_to_csv_javascript(@suppliers_grid) %>" class="btn"><i class="icon-file"></i> Export to PDF</a>
+			</div>
+		  </div>
+        </div>
+        <br/>
+		<%= grid(@suppliers_grid, :class => "row-fluid", :hide_csv_button => true) do |g|
+			g.action_column
+
+  			g.column :column_name => "Name", :attribute_name => "name" do |supplier|
+    			supplier.name
+  			end
+
+  			g.column :column_name => "Address", :attribute_name => "address" do |supplier|
+    			supplier.address
+  			end
+
+            g.column :column_name => "Contact Person", :attribute_name => "contact_person" do |supplier|
+	        	supplier.contact_person
+			end
+
+  			g.column :column_name => "Contact Number", :attribute_name => "contact_number" do |supplier|
+    			supplier.contact_number
+  			end
+
+  			g.column do |supplier|
+    			link_to "<i class='icon-eye-open'></i> View".html_safe, account_setup_module_purchases_setup_supplier_path(supplier), :class => "btn btn-mini"
+  			end
+
+  			g.column do |supplier|
+				link_to "<i class='icon-edit'></i> Edit".html_safe, edit_account_setup_module_purchases_setup_supplier_path(supplier), :class => "btn btn-mini"
+  			end
+
+  			g.column do |supplier|
+				link_to "<i class='icon-trash icon-white'></i> Delete".html_safe, account_setup_module_purchases_setup_supplier_path(supplier), :confirm => 'Are you sure?', :method => :delete, :class => "btn btn-mini btn-danger"
+  			end
+
+		end -%>
+
+		<%= include_wice_grid_assets %>
+		
+<%= render :partial => "/account/setup_module/purchases_setup/partials/container_footer" %>

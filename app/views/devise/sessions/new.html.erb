@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <div id="sign-in-box" class="span6 offset3 box">
+	<div id="sign-in-header">
+		<%= link_to image_tag("/assets/logo.png", :id => "logo"), root_path, :class => "brand" %>
+    </div>
+	<div id="sign-in-body" class="box">
+	<%= render "/partials/flash_messages" %>
+    <%= semantic_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "form-horizontal" }) do |f| %>
+      <%= f.semantic_errors %>
+
+	    <%= f.input :login %>
+	    <%= f.input :password %>
+	    
+	    <% if devise_mapping.rememberable? -%>
+	       <%= f.input :remember_me, :as => :boolean %>
+        <% end -%>
+      
+        <%= f.submit "Login", :class => 'btn btn-light-blue large' %>
+      
+        <%= render :partial => "devise/shared/links" %>
+       
+    <% end %>
+	</div>
+	<p><%= render "/partials/footer" %></p>
+  </div>
+</div>
+

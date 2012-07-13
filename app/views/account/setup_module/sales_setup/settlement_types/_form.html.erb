@@ -1,0 +1,10 @@
+<%= semantic_form_for([:account, :setup_module, :sales_setup, @settlement_type], :html => { :class => "form-horizontal" }) do |settlement_type_f| %>
+  <%= settlement_type_f.semantic_errors %>
+  <div class="well">
+	<%= settlement_type_f.input :concept_id, :as => :select, :collection => Concept.all.map{ |b| [ b.name, b.id ] } %>
+    <%= settlement_type_f.input :name %>
+    <%= settlement_type_f.input :is_complimentary, :as => :boolean %>   
+  </div>
+  <%= link_to "Cancel".html_safe, account_setup_module_sales_setup_settlement_types_path, :class => 'btn' %>
+  <%= settlement_type_f.submit "Submit", :class => 'btn btn-light-blue large' %>
+<% end %>

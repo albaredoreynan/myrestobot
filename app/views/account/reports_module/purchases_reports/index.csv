@@ -1,0 +1,21 @@
+<%  require 'csv' 
+  csv_string = CSV.generate do |csv|
+    csv << ['Invoice Number', 'Invoice Date', 'Supplier', 'Branch', 'Category',
+            'Subcategory', 'Item', 'Quantity', 'Unit Cost', 'Amount', 'VAT-Type',
+            'VAT-Amount', 'Net-Amount', 'Invoice total']
+    total_purchase_amount = Array.new   
+    @purchases.each do |purchase|
+      purchase.purchase_items.each do |purchaserow|
+        csv << [purchase.invoice_number, purchase.purchase_date, purchase.supplier.name,
+          purchase.branch.name, purchaserow.item.subcategory.category.name,
+          purchaserow.item.subcategory.name, purchaserow.item.name,
+          purchaserow.quantity, purchaserow.unit_price, purchaserow.amount,
+          purchaserow.vat_type, purchaserow.vat_amount, purchaserow.net_amount, 0]
+        total_purchase_amount << purchaserow.net_amount
+      end      
+    end
+    csv << [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ', total_purchase_amount.reject(&:nil?).inject(:+) || 0,' ']
+  end  
+%> 
+<%= csv_string%>
+

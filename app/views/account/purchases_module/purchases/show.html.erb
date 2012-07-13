@@ -1,0 +1,17 @@
+<h2>Branch</h2>
+<div class="well">
+  <h3>Branch Information</h3>
+  <dl class="dl-horizontal">
+	<dt>ID</dt>
+    <dd><%= @branch.id %></dd>
+    <dt>Name</dt>
+    <dd><%= @branch.name %></dd>
+    <dt>Address</dt>
+    <dd><%= @branch.address %></dd>
+	<dt>Contact Number</dt>
+    <dd><%= @branch.contact_number %></dd>
+  </dl>
+</div>
+
+<%= link_to "Edit", edit_account_setup_module_organization_setup_branch_path, :class => 'btn' %>
+<%= link_to "Delete", account_setup_module_organization_setup_branch_path(@branch), :confirm => 'Are you sure?', :method => :delete, :class => 'btn' %>

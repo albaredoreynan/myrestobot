@@ -1,0 +1,36 @@
+<%= render :partial => "/account/inventory_module/partials/container_header" %>
+        <div class="container-fluid">
+	      <div class="btn-toolbar">
+        	<div class="btn-group pull-right">
+			  <a href="<%= new_account_inventory_module_endcount_path %>" class="btn btn-light-blue">
+			    <i class="icon-plus icon-white"></i> Create New Endcount Entry
+			  </a>
+			</div>
+			<div class="btn-group btns-export pull-right">
+        <%= link_to "<i class='icon-file'></i> Generate EndCount Sheet ".html_safe, account_inventory_module_endcounts_path(params.merge(format: 'pdf')), :class => "btn" %>			  
+			</div>
+		  </div>
+        </div>
+        <br/>
+		<%= grid(@endcounts_grid, :class => "row-fluid") do |g|
+
+  			g.column :column_name => "Entry Date", :attribute_name => "entry_date" do |endcount|
+    			endcount.entry_date
+  			end
+        
+ 			  g.column :column_name => "Branch", :attribute_name => "branch_id", :custom_filter => Branch.find(:all).map{ |b| [b.name, b.id] } do |endcount|
+    			endcount.branch.name
+  			end
+  			
+  			g.column do |endcount|
+    			link_to "<i class='icon-eye-open'></i> View".html_safe, account_inventory_module_endcount_path(endcount), :class => "btn btn-mini"
+  			end
+
+  			g.column do |endcount|
+				link_to "<i class='icon-edit'></i> Edit".html_safe, edit_account_inventory_module_endcount_path(endcount), :class => "btn btn-mini"
+  			end
+
+		end -%>
+
+		<%= include_wice_grid_assets %>
+<%= render :partial => "/account/inventory_module/partials/container_footer" %>

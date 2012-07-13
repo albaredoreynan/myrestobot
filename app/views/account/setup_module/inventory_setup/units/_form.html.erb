@@ -1,0 +1,11 @@
+<%= semantic_form_for([:account, :setup_module, :inventory_setup, @unit], :html => { :class => "form-horizontal" }) do |unit_f| %>
+  <%= unit_f.semantic_errors %>
+  <div class="well">
+	<%= unit_f.input :concept_id, :as => :select, :collection => Concept.all.map{ |b| [ b.name, b.id ] } %>
+	<%= unit_f.input :symbol %>
+    <%= unit_f.input :name %>
+    <%= unit_f.input :unit_type, :as => :select, :collection => [ "mass", "volume", "length" ] %>
+  </div>
+  <%= link_to "Cancel".html_safe, account_setup_module_inventory_setup_units_path, :class => 'btn' %>
+  <%= unit_f.submit "Submit", :class => 'btn btn-light-blue large' %>
+<% end %>

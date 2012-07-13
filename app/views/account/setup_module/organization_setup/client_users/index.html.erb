@@ -1,0 +1,63 @@
+<%= render :partial => "/account/setup_module/organization_setup/partials/container_header" %>
+        <div class="container-fluid">
+	      <div class="btn-toolbar">
+        	<div class="btn-group pull-right">
+			  <a href="<%= new_account_setup_module_organization_setup_client_user_path %>" class="btn btn-light-blue">
+			    <i class="icon-plus icon-white"></i> Create New User
+			  </a>
+			</div>
+			<div class="btn-group btns-export pull-right">
+			  <a href="javascript:{}" onclick="<%= export_to_csv_javascript(@client_users_grid) %>" class="btn"><i class="icon-file"></i> Export to CSV</a>
+			  <a href="javascript:{}" onclick="<%= export_to_csv_javascript(@client_users_grid) %>" class="btn"><i class="icon-file"></i> Export to PDF</a>
+			</div>
+		  </div>
+        </div>
+        <br/>
+        <%= grid(@client_users_grid, :class => "row-fluid") do |g|
+	        g.action_column
+	
+	        g.column :column_name => "Username", :attribute_name => "username" do |client_user|
+		        client_user.username
+		    end
+
+  			g.column :column_name => "Email", :attribute_name => "email" do |client_user|
+    			client_user.email
+  			end
+
+            g.column :column_name => "First Name", :attribute_name => "first_name" do |client_user|
+    			client_user.first_name
+  			end
+
+            g.column :column_name => "Last Name", :attribute_name => "last_name" do |client_user|
+    			client_user.last_name
+  			end
+
+  			g.column :column_name => "Branch", :model_class => "Branch", :attribute_name => "name" do |client_user|
+    			client_user.branch.name
+  			end
+
+  			g.column :column_name => "Restaurant", :model_class => "Concept", :attribute_name => "name" do |client_user|
+    			client_user.concept.name
+  			end
+
+  			g.column :column_name => "Company", :model_class => "Client", :attribute_name => "name" do |client_user|
+    			client_user.client.name
+  			end
+
+  			g.column do |client_user|
+    			link_to "<i class='icon-eye-open'></i> View".html_safe, account_setup_module_organization_setup_client_user_path(client_user), :class => "btn btn-mini"
+  			end
+
+  			g.column do |client_user|
+				link_to "<i class='icon-edit'></i> Edit".html_safe, edit_account_setup_module_organization_setup_client_user_path(client_user), :class => "btn btn-mini"
+  			end
+
+  			g.column do |client_user|
+				link_to "<i class='icon-trash icon-white'></i> Delete".html_safe, account_setup_module_organization_setup_client_user_path(client_user), :confirm => 'Are you sure?', :method => :delete, :class => "btn btn-mini btn-danger"
+  			end
+
+		end -%>
+
+		<%= include_wice_grid_assets %>
+		
+<%= render :partial => "/account/setup_module/organization_setup/partials/container_footer" %>

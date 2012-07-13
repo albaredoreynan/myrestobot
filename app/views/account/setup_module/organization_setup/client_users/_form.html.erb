@@ -1,0 +1,16 @@
+<%= semantic_form_for([:account, :setup_module, :organization_setup, @client_user], :html => { :class => "form-horizontal" }) do |client_f| %>
+  <%= client_f.semantic_errors %>
+  <div class="well">
+    <%= client_f.input :client_id, :as => :select, :collection => Client.all.map{ |b| [ b.name, b.id ] } %>
+    <%= client_f.input :concept_id, :as => :select, :collection => Concept.all.map{ |b| [ b.name, b.id ] } %>
+    <%= client_f.input :branch_id, :as => :select, :collection => Branch.all.map{ |b| [ b.name, b.id ] } %>
+    <%= client_f.input :username %>
+    <%= client_f.input :password %>
+    <%= client_f.input :email %>
+    <%= client_f.input :first_name %>
+    <%= client_f.input :last_name %>
+    <%= client_f.input :role, :as => :select, :collection => ["admin", "client", "branch", "accounting"] %>
+  </div>
+  <%= link_to "Cancel".html_safe, account_setup_module_organization_setup_client_users_path, :class => 'btn' %>
+  <%= client_f.submit "Submit", :class => 'btn btn-light-blue large' %>
+<% end %>

@@ -1,0 +1,6 @@
+<%= tabs_tag(:builder => NavTabBuilder, :open_tabs => { :class => "page-tabs nav nav-tabs" }) do |tab| %>
+  <%= tab.sales_reports "Daily Sales Reports", account_reports_module_sales_reports_path %>
+  <%= tab.purchases_reports "Purchase Reports", account_reports_module_purchases_reports_path %>
+  <%= tab.directional_reports "Directional Reports", account_reports_module_directional_reports_path %>
+  <%= tab.endcounts_reports "Endcount Reports", account_reports_module_endcounts_reports_path %>
+<% end %>

@@ -1,0 +1,23 @@
+<div class="subnav subnav-fixed row-fluid">
+ <nav id="main-navigation"> 
+  <ul id="main-navigation-list" class="nav nav-pills">
+	<li><%= link_to( "<i class='icon-sales'></i><span>New Sale</span>".html_safe , account_sales_module_index_path )  %></li>
+	<li><%= link_to( "<i class='icon-purchases'></i><span>New Purchase</span>".html_safe , account_purchases_module_index_path )  %></li>
+	<li><%= link_to( "<i class='icon-inventory'></i><span>Inventory</span>".html_safe , account_inventory_module_index_path )  %></li>
+	<li><%= link_to( "<i class='icon-reports'></i><span>Reports</span>".html_safe , account_reports_module_index_path )  %></li>
+    <li class="dropdown">
+	    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="icon-settings"></i>
+            <span>Setup</span>
+			<b class="caret"></b>
+		</a>
+		<ul id="setup-list" class="dropdown-menu">
+			<li><%= link_to( "Organization" , account_setup_module_organization_setup_index_path )  %></li>
+			<li><%= link_to( "Sales" , account_setup_module_sales_setup_index_path )  %></li>
+			<li><%= link_to( "Purchases" , account_setup_module_purchases_setup_index_path )  %></li>
+			<li><%= link_to( "Inventory" , account_setup_module_inventory_setup_index_path )  %></li>
+		</ul>
+	</li>
+  </ul>
+ </nav>
+</div>

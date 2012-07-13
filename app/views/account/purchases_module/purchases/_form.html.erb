@@ -1,0 +1,61 @@
+<%= semantic_form_for([:account, :purchases_module, @purchase], :html => { :class => "form-horizontal nested-forms" }) do |purchase_f| %>
+  <%= purchase_f.semantic_errors %>
+  <div class="well">
+    <%= purchase_f.input :branch_id, :as => :select, :collection => Branch.all.map{ |b| [ b.name, b.id ] } %>
+    <%= purchase_f.input :purchase_date, :label => "Date", :as => :string, :input_html => { :class => "datepicker" }, :required => true %>
+    <%= purchase_f.input :supplier_id, :as => :select, :collection => Supplier.all.map{ |b| [ b.name, b.id ] } %>
+    <%= purchase_f.input :invoice_number %>
+  </div>
+
+  <table class="table purchase_items nested_fields_table">
+	  <thead>
+		<tr>
+			<th>Item</th>
+			<th>Quantity</th>
+			<th>Unit</th>
+			<th>Unit Price (PHP)</th>
+			<th>Amount (PHP)</th>
+			<th>VAT Type</th>
+			<th>Particulars</th>
+			<th></th>
+		</tr>
+	  </thead>
+	  <tbody id="purchase_items">
+		
+	  <input type="hidden" id="item-id" />	
+      <%= purchase_f.semantic_fields_for :purchase_items do |purchase_item| %>
+         <%= render "purchase_item_fields", :f => purchase_item %>    
+      <% end %>
+        
+      </tbody>
+      <tfoot>
+	    <tr>
+	       <td colspan="5"></td>
+	       <td class="font-size-18 bold-font">Total</td>
+	       <td class="font-size-18 bold-font"><span id="purchases-total-amount">0.00</span> PHP</td>
+	       <td></td>
+	    </tr>
+	  </tfoot>
+      <tr>
+	    
+	  </tr>
+  </table>
+  	<div class="links">
+	  	<%= link_to_add_association purchase_f, :purchase_items, :"data-association-insertion-node" => "tbody#purchase_items", :"data-association-insertion-method" => "append", :partial => "purchase_item_fields", :class => 'btn pull-right' do %>
+		   <i class="icon-plus"></i> Add Item
+		<% end %>
+	</div>
+  
+  
+
+  <%= purchase_f.submit "Submit", :class => 'btn btn-light-blue large' %>
+<% end %>
+
+<script>
+
+$(function(){
+	// Date picker loader
+	$(".datepicker").datepicker();
+});
+
+</script>

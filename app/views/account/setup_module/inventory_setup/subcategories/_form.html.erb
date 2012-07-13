@@ -1,0 +1,13 @@
+<%= semantic_form_for([:account, :setup_module, :inventory_setup, @subcategory], :html => { :class => "form-horizontal" }) do |subcategory_f| %>
+  <%= subcategory_f.semantic_errors %>
+  <div class="well">
+	<%= subcategory_f.input :category_id, :as => :select, :collection => Category.all.map{ |b| [ b.name, b.id ] } %>
+    <%= subcategory_f.input :name %>
+    <%= subcategory_f.input :goal, :hint => ' in percentage' %>
+    <%= subcategory_f.input :cogs_group, :as => :select, :collection =>  [['Foods and Beverages', 'Foods and Beverages'], ['Alcohol', 'Alcohol'], ['Labors','Labors'], ['Others', 'Others']] %>
+    <%= subcategory_f.input :description %>
+    <%= subcategory_f.input :non_inventory, :as => :boolean %>  
+  </div>
+  <%= link_to "Cancel".html_safe, account_setup_module_inventory_setup_subcategories_path, :class => 'btn' %>
+  <%= subcategory_f.submit "Submit", :class => 'btn btn-light-blue large' %>
+<% end %>

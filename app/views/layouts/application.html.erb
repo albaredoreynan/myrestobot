@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Restobot</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+    <% if client_user_signed_in? %>
+        <%= render "partials/topbar" %>
+        <%= render "partials/navigation" %>
+    <% end %>
+	<div id="main-container" class="container-fluid">
+	  <% if client_user_signed_in? %>
+	    <%= render "partials/breadcrumbs" %>
+	    <%= render "partials/flash_messages" %>
+	  <% end %>
+	  <%= yield %>
+	  <% if client_user_signed_in? %>
+	    <br />
+	    <%= render "partials/footer" %>
+	  <% end %>
+	</div>
+</body>
+</html>

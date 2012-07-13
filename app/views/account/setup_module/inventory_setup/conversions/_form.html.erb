@@ -1,0 +1,10 @@
+<%= semantic_form_for([:account, :setup_module, :inventory_setup, @conversion], :html => { :class => "form-horizontal" }) do |conversion_f| %>
+  <%= conversion_f.semantic_errors %>
+  <div class="well">
+    <%= conversion_f.input :bigger_unit_id, :as => :select, :collection => Unit.all.map{ |b| [ b.name, b.id ] } %>
+    <%= conversion_f.input :smaller_unit_id, :as => :select, :collection => Unit.all.map{ |b| [ b.name, b.id ] } %>
+    <%= conversion_f.input :conversion_factor %>
+  </div>
+  <%= link_to "Cancel".html_safe, account_setup_module_inventory_setup_conversions_path, :class => 'btn' %>
+  <%= conversion_f.submit "Submit", :class => 'btn btn-light-blue large' %>
+<% end %>

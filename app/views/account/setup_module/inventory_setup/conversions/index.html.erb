@@ -1,0 +1,52 @@
+<%= render :partial => "/account/setup_module/inventory_setup/partials/container_header" %>
+        <div class="container-fluid">
+	      <div class="btn-toolbar">
+        	<div class="btn-group pull-right">
+			  <a href="<%= new_account_setup_module_inventory_setup_conversion_path %>" class="btn btn-light-blue">
+			    <i class="icon-plus icon-white"></i> Create New Conversion
+			  </a>
+			</div>
+			
+			<div class="btn-group btns-export pull-right">
+			  <a href="javascript:{}" onclick="<%= export_to_csv_javascript(@conversions_grid) %>" class="btn"><i class="icon-file"></i> Export to CSV</a>
+			  <a href="javascript:{}" onclick="<%= export_to_csv_javascript(@conversions_grid) %>" class="btn"><i class="icon-file"></i> Export to PDF</a>
+			</div>
+		  </div>
+        </div>
+        <br/>
+		<%= grid(@conversions_grid, :class => "row-fluid") do |g|
+			g.action_column
+			
+			g.column :column_name => "Bigger Unit", :model_class => "Unit", :attribute_name => "name" do |conversion|
+    			conversion.bigger_unit.name
+  			end
+
+            g.column :column_name => "Smaller Unit", :model_class => "Unit", :attribute_name => "name" do |conversion|
+    			conversion.smaller_unit.name
+  			end
+
+            g.column :column_name => "Conversion Factor", :attribute_name => "conversion_factor" do |conversion|
+    			conversion.conversion_factor
+  			end
+
+  			g.column :column_name => "Restaurant",  :model_class => "Concept", :attribute_name => "name" do |conversion|
+    			conversion.bigger_unit.concept.name
+  			end
+
+  			g.column do |conversion|
+    			link_to "<i class='icon-eye-open'></i> View".html_safe, account_setup_module_inventory_setup_conversion_path(conversion), :class => "btn btn-mini"
+  			end
+
+  			g.column do |conversion|
+				link_to "<i class='icon-edit'></i> Edit".html_safe, edit_account_setup_module_inventory_setup_conversion_path(conversion), :class => "btn btn-mini"
+  			end
+
+  			g.column do |conversion|
+				link_to "<i class='icon-trash icon-white'></i> Delete".html_safe, account_setup_module_inventory_setup_conversion_path(conversion), :confirm => 'Are you sure?', :method => :delete, :class => "btn btn-mini btn-danger"
+  			end
+
+		end -%>
+
+		<%= include_wice_grid_assets %>
+		
+<%= render :partial => "/account/setup_module/inventory_setup/partials/container_footer" %>

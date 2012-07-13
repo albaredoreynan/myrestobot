@@ -1,0 +1,9 @@
+<%= semantic_form_for([:account, :setup_module, :sales_setup, @sale_category], :html => { :class => "form-horizontal" }) do |sale_category_f| %>
+  <%= sale_category_f.semantic_errors %>
+  <div class="well">
+	<%= sale_category_f.input :concept_id, :as => :select, :collection => Concept.all.map{ |b| [ b.name, b.id ] } %>
+    <%= sale_category_f.input :name %>
+  </div>
+  <%= link_to "Cancel".html_safe, account_setup_module_sales_setup_sale_categories_path, :class => 'btn' %>
+  <%= sale_category_f.submit "Submit", :class => 'btn btn-light-blue large' %>
+<% end %>

@@ -1,0 +1,131 @@
+<tr class="nested-fields"> 
+  <td>
+    <%= f.autocomplete_field :item_name, autocomplete_item_name_account_purchases_module_purchase_items_path, :id_element => "#item-id" %>
+    <%= f.input :item_id, :as => :hidden %>
+  </td>
+  <td>
+    <%= f.input :quantity %>
+  </td>
+  <td>
+    <%= f.input :unit_id, :as => :select, :collection => Unit.all.map{ |b| [ b.name, b.id ] } %>
+  </td>
+  <td>
+	<%= f.input :unit_price, :input_html => { :readonly => true }  %>
+  </td>
+  <td>
+    <%= f.input :amount, :input_html => { :class => "purchase-item-amounts" }  %>
+  </td>
+  <td>
+    <%= f.input :vat_type, :as => :select, :collection => [ "VAT-Exclusive", "VAT-Inclusive", "VAT-Exempted" ], :input_html => { :class => "purchase-item-vat-types" }  %>
+  </td>
+  <td>
+    <%= f.input :particulars %>
+  </td>
+  <td>
+    <%= link_to_remove_association "Remove", f, :class => "btn btn-danger remove-item-button" %>
+  </td>
+</tr>
+
+<script>
+
+$(function(){
+	// Compute total amount
+	$(".purchase-item-amounts").focusout(function(){
+		var sum = 0;
+		$(".purchase-item-amounts").each(function(){
+			sum += Number($(this).val());
+		});
+		
+		$("#purchases-total-amount").text(sum.toFixed(2));
+	});
+
+	
+	// Compute unit price through purchase item vat type
+	$(".purchase-item-vat-types").focusout(function(){
+
+		var item_vat_type_id = $(this).attr("id");
+		var item_amount_id = item_vat_type_id.replace( "vat_type", "amount" );
+		var item_quantity_id = item_vat_type_id.replace( "vat_type", "quantity" );
+		
+		var item_unit_price = item_vat_type_id.replace( "vat_type", "unit_price" );
+		
+		var net_amount = 0;
+		var vat_amount = 0;
+		var unit_price = 0;
+		
+		var item_amount = parseFloat($("#" + item_amount_id).val());
+		var item_quantity = parseFloat($("#" + item_quantity_id).val());
+		
+		// Check VAT type and compute VAT amount
+		if( $(this).val() == "VAT-Inclusive" ){
+			vat_amount = item_amount - ( item_amount / 1.12);
+		}
+		else
+		if( $(this).val() == "VAT-Exclusive" ){
+	        vat_amount = ( item_amount * 1.12 ) - item_amount;
+		}
+		else
+		if( $(this).val() == "VAT-Exempted" ){
+			vat_amount = 0;
+		}
+		
+		// Check VAT type and compute NET amount
+		if( $(this).val() == "VAT-Inclusive" ){
+			net_amount = item_amount - vat_amount;
+		}
+		else
+		if( $(this).val() == "VAT-Exclusive" ){
+	        net_amount = item_amount + vat_amount;
+		}
+		else
+		if( $(this).val() == "VAT-Exempted" ){
+			net_amount = item_amount;
+		}
+		
+		unit_price =  net_amount / item_quantity;
+		
+		$("#" + item_unit_price).val(unit_price.toFixed(2));
+	});
+	
+	// Subtract amount when remove item button clicked
+	$(".remove-item-button").click(function(){
+        
+		var sum = 0;
+		var subtractable = 0
+		
+		var subtractable_id = $(this).siblings("input").attr("id");
+		subtractable_id = subtractable_id.replace( "_destroy", "amount" );
+		
+		subtractable = $("#" + subtractable_id ).val();
+		
+		$(".purchase-item-amounts").each(function(){
+			sum += Number($(this).val());
+		});
+		
+		sum = sum - subtractable;
+		$("#purchases-total-amount").text(sum.toFixed(2));
+	});
+	
+	// Bind railsAutocomplete.select event
+	$('input').bind('railsAutocomplete.select', function(event, data){
+		var field_id = $(this).attr("id");
+		field_id = field_id.replace( "item_name", "item_id" );
+		$("#" + field_id).val($("#item-id").val());
+		$(this).next().val(data.item.id);
+		
+		// Reload units after selecting item
+		var unit_field_id = field_id.replace( "item_id", "unit_id" );
+		$.ajax({
+			url: "/account/setup_module/inventory_setup/items/" + $("#" + field_id).val() + "/available_units",
+			dataType: "json",
+			success: function(data){
+				$("#" + unit_field_id).empty();
+				return $(data).each(function(index, elem) {
+		          return $("#" + unit_field_id).append($("<option></option>").attr("value", elem.id).text(elem.name));
+		        });
+			} 
+		});
+	});
+});
+
+</script>

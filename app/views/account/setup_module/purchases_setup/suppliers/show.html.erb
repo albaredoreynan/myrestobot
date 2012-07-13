@@ -1,0 +1,25 @@
+<%= render :partial => "/account/setup_module/purchases_setup/partials/container_header" %>
+<div class="container">
+<h2>Company</h2>
+<div class="well">
+  <h3>Company Information</h3>
+  <dl class="dl-horizontal">
+	<dt>ID</dt>
+    <dd><%= @supplier.id %></dd>
+    <dt>Name</dt>
+    <dd><%= @supplier.name %></dd>
+    <dt>Address</dt>
+    <dd><%= @supplier.address %></dd>
+	<dt>Contact Number</dt>
+    <dd><%= @supplier.contact_number %></dd>
+  </dl>
+</div>
+
+<%= link_to "<i class='icon-chevron-left'></i> Back to Companies".html_safe, account_setup_module_purchases_setup_suppliers_path, :class => 'btn' %>
+<%= link_to "<i class='icon-trash icon-white'></i> Delete".html_safe, account_setup_module_purchases_setup_supplier_path(@supplier), :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-danger' %>
+<%= link_to "<i class='icon-edit'></i> Edit".html_safe, edit_account_setup_module_purchases_setup_supplier_path, :class => 'btn' %>
+
+
+</div>
+<br/>
+<%= render :partial => "/account/setup_module/purchases_setup/partials/container_footer" %>

@@ -1,0 +1,82 @@
+<%= render :partial => "/account/reports_module/partials/container_header" %>
+        <div class="container-fluid">
+	      <div class="btn-toolbar">
+        	<div class="btn-group pull-right">
+			</div>
+			<div class="btn-group btns-export pull-right">
+			</div>
+		  </div>
+        </div>
+        <div class="tab-content">
+	        <div class="tab-pane active">
+            <div class="container">
+                <h2>Item Cost Analysis</h2>
+                <table class="table table-striped table-bordered table-condensed">
+                  <tr>
+                    <th colspan="3"></th>
+                    <th colspan="3" style="text-align:center; width: 25%;">Beginning</th>
+                    <th colspan="3" style="text-align:center; width: 25%;">Ending</th>
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th>Item</th>
+                    <th>Unit Cost</th>
+                    <th>Unit</th>
+                    <th>Count</th>
+                    <th>Total</th>
+                    <th>Purchases</th>
+                    <th>Count</th>
+                    <th>Total</th>
+                    <th>COGS</th>
+                    <th>USAGE</th>
+                  </tr>
+                  <% grand_total_beginning_count = 0.0  %>
+                  <% grand_total_beginning_total = 0.0 %>
+                  <% grand_total_purchase_amount = 0.0 %>
+                  <% grand_total_ending_count = 0.0 %>
+                  <% grand_total_ending_total = 0.0 %>
+                  <% grand_total_cogs = 0.0 %>
+                  <% by_subcategory = @endcount.items.group_by { |i| i.subcategory } %>
+                  <% by_subcategory.each do |subcategory, items| %>
+                    <tr> 
+                      <th colspan="3"><%= subcategory.name %></th>
+                        <% subtotal_beginning_count = items.map(&:beginning_count).reject(&:nil?).inject(:+) %>
+                        <% grand_total_beginning_count += subtotal_beginning_count if subtotal_beginning_count %>
+                      <th><%= subtotal_beginning_count %></th>
+                        <% subtotal_beginning_total = items.map(&:beginning_total).reject(&:nil?).inject(:+) %>
+                        <% grand_total_beginning_total += subtotal_beginning_total if subtotal_beginning_total %>
+                      <th><%= number_to_currency(subtotal_beginning_total, :unit => peso_sign) %></th>
+                        <% subtotal_purchase_amount = items.map(&:purchase_amount_period).reject(&:nil?).inject %>(:+)
+                        <% grand_total_purchase_amount += subtotal_purchase_amount if subtotal_purchase_amount %>
+                      <th><%= number_to_currency(subtotal_purchase_amount, :unit => peso_sign) %></th>
+                        <% subtotal_ending_count = items.map(&:ending_count).reject(&:nil?).inject(:+) %>
+                        <% grand_total_ending_count += subtotal_ending_count if subtotal_ending_count %>
+                      <th><%= subtotal_ending_count %></th>
+                        <% subtotal_ending_total = items.map(&:ending_total).reject(&:nil?).inject(:+) %>
+                        <% grand_total_ending_total += subtotal_ending_total if subtotal_ending_total %>
+                      <th><%= number_to_currency(subtotal_ending_total, :unit => peso_sign) %></th>
+                        <% subtotal_cogs = items.map(&:cogs).reject(&:nil?).inject(:+) %>
+                        <% grand_total_cogs += subtotal_cogs if subtotal_cogs %>
+                      <th colspan="2"><%= number_with_precision(subtotal_cogs, :precision => 2, :delimiter => ',') %></th>
+                      <% items.each do |item| %>
+                        <tr>
+                          <td><%= item.name %></td>
+                          <td><%= number_to_currency(item.unit_cost, :unit => peso_sign) %></td>
+                          <td><%= item.unit_name %></td>
+                          <td><%= item.beginning_count %></td>
+                          <td><%= number_to_currency(item.beginning_total, :unit => peso_sign) if item.beginning_count %></td>
+                          <td><%= number_to_currency(item.purchase_amount_period, :unit => peso_sign) %></td>
+                          <td><%= item.ending_count %></td>
+                          <td><%= number_to_currency(item.ending_total, :unit => peso_sign) if item.ending_count %></td>
+                          <td><%= number_to_currency(item.cogs, :unit => peso_sign) %></td>
+                          <td><%= item.usage %></td>
+                        </tr>
+                      <% end %>  
+                    </tr>
+                  <% end %>   
+                </table>  
+            </div>
+          </div>
+        </div>
+<%= render :partial => "/account/reports_module/partials/container_footer" %>
+
