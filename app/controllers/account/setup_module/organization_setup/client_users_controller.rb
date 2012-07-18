@@ -1,10 +1,11 @@
 
 class Account::SetupModule::OrganizationSetup::ClientUsersController < Account::SetupModule::OrganizationSetupController
+  load_and_authorize_resource
   set_tab :client_users
   
   def index
-    @client_users = ClientUser.order("created_at")
-    @client_users_grid = initialize_grid(ClientUser, :include => [:branch, :concept, :client])
+    @client_users = ClientUser.accessible_by(current_ability).order("created_at")
+    @client_users_grid = initialize_grid(@client_users, :include => [:branch, :concept, :client])
   end
   
   def show

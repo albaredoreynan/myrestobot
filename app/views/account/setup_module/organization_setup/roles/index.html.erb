@@ -21,15 +21,15 @@
   			end
 
   			g.column do |role|
-    			link_to "<i class='icon-eye-open'></i> View".html_safe, account_setup_module_organization_setup_concept_path(role), :class => "btn btn-mini"
+    			link_to "<i class='icon-eye-open'></i> View".html_safe, account_setup_module_organization_setup_role_path(role), :class => "btn btn-mini"
   			end
 
   			g.column do |role|
-				link_to "<i class='icon-edit'></i> Edit".html_safe, edit_account_setup_module_organization_setup_concept_path(role), :class => "btn btn-mini"
+				link_to "<i class='icon-edit'></i> Edit".html_safe, edit_account_setup_module_organization_setup_role_path(role), :class => "btn btn-mini"
   			end
 
   			g.column do |role|
-				link_to "<i class='icon-trash icon-white'></i> Delete".html_safe, account_setup_module_organization_setup_concept_path(role), :confirm => 'Are you sure?', :method => :delete, :class => "btn btn-mini btn-danger"
+				link_to "<i class='icon-trash icon-white'></i> Delete".html_safe, account_setup_module_organization_setup_role_path(role), :confirm => 'Are you sure?', :method => :delete, :class => "btn btn-mini btn-danger"
   			end
 
 		end -%>

@@ -4,7 +4,7 @@ class Account::SetupModule::SalesSetup::SaleCategoriesController < Account::Setu
   
   def index
     @sale_categories = SaleCategory.order("updated_at")
-    @sale_categories_grid = initialize_grid(SaleCategory, :include => [:concept], :name => "sale_category_grid", :enable_export_to_csv => true, :csv_file_name => "sale_categories")
+    @sale_categories_grid = initialize_grid(@sale_categories, :include => [:concept], :name => "sale_category_grid", :enable_export_to_csv => true, :csv_file_name => "sale_categories")
   end
   
   def show

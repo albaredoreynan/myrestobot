@@ -22,14 +22,6 @@
     			branch.name
   			end
 
-  			g.column :column_name => "Address", :attribute_name => "address" do |branch|
-    			branch.address
-  			end
-
-  			g.column :column_name => "Contact Number", :attribute_name => "contact_number" do |branch|
-    			branch.contact_number
-  			end
-
 			g.column :column_name => "Restaurant", :model_class => "Concept", :attribute_name => "name" do |branch|
     			branch.concept.name
   			end

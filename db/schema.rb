@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(:version => 20120705035350) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "role"
     t.integer  "branch_id"
     t.integer  "concept_id"
     t.integer  "client_id"
@@ -57,7 +58,6 @@ ActiveRecord::Schema.define(:version => 20120705035350) do
     t.string   "username"
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "role"
   end
 
   add_index "client_users", ["branch_id"], :name => "index_client_users_on_branch_id"

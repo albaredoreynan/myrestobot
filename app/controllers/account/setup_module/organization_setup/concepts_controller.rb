@@ -4,8 +4,8 @@ class Account::SetupModule::OrganizationSetup::ConceptsController < Account::Set
   set_tab :concepts
   
   def index
-    @concepts = Concept.order("updated_at")
-    @concepts_grid = initialize_grid(Concept, :include => [:client])
+    @concepts = Concept.accessible_by(current_ability).order("updated_at")
+    @concepts_grid = initialize_grid(@concepts , :include => [:client])
   end
   
   def show

@@ -18,7 +18,7 @@ class DeviseCreateClientUsers < ActiveRecord::Migration
       t.datetime :last_sign_in_at
       t.string   :current_sign_in_ip
       t.string   :last_sign_in_ip
-
+      t.string   :role
       ## Confirmable
       # t.string   :confirmation_token
       # t.datetime :confirmed_at
@@ -36,18 +36,16 @@ class DeviseCreateClientUsers < ActiveRecord::Migration
       t.integer :branch_id
       t.integer :concept_id
       t.integer :client_id
-      t.integer :role_id
 
       t.timestamps
     end
-    ClientUser.create(:email => "vincep@primehospitality.com", :password => "password", :password_confirmation => "password", :role_id => 1, :branch_id => 1, :concept_id => 1, :client_id => 1)
+    ClientUser.create(:email => "vincep@primehospitality.com", :password => "password", :password_confirmation => "password", :role => "client", :branch_id => 1, :concept_id => 1, :client_id => 1)
     
     add_index :client_users, :email,                :unique => true
     add_index :client_users, :reset_password_token, :unique => true
     add_index :client_users, :concept_id
     add_index :client_users, :client_id
     add_index :client_users, :branch_id
-    add_index :client_users, :role_id
     # add_index :client_users, :confirmation_token,   :unique => true
     # add_index :client_users, :unlock_token,         :unique => true
     # add_index :client_users, :authentication_token, :unique => true

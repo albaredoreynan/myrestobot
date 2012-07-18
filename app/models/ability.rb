@@ -1,26 +1,30 @@
 class Ability
   include CanCan::Ability
-
+  
   def initialize(client_user)
     client_user ||= ClientUser.new
     role_name = client_user.role
     
     case role_name
     
-    when 'branch'  
-      branch_id = client_user.branch.id
+    when 'branch'
+
+      #branch_id = client_user.branch.id
+
+      can :read, Client, :id => client_user.client_id
+      cannot [:create, :edit, :update, :destroy], Client, :id => client_user.client_id
+
+      can :read, ClientUser, :client_id => client_user.client_id
+      cannot [:create, :edit, :update, :destroy], ClientUser, :client_id => client_user.client_id
       
-      can :read, Client
-      cannot [:create, :edit, :update, :destroy], Client
+      can :read, Branch, :client_id => client_user.client_id
+      cannot [:create, :edit, :update, :destroy], Branch, :id => client_user.branch_id
+
+      can :read, Role
+      cannot [:create, :edit, :update, :destroy], Role
       
-      can :read, ClientUser
-      cannot [:create, :edit, :update, :destroy], ClientUser
-      
-      can :read, Branch
-      cannot [:create, :edit, :update, :destroy], Branch
-      
-      can :read, Concept
-      cannot [:create, :edit, :update, :destroy], Concept
+      can :read, Concept, :client_id => client_user.client_id
+      cannot [:create, :edit, :update, :destroy], Concept, :id => client_user.concept_id
       
       can :read, SaleCategory
       cannot [:create, :edit, :update, :destroy], SaleCategory
@@ -44,16 +48,35 @@ class Ability
     when 'client'
       client_id = client_user.client.id
       
-      can :manage, ClientUser
+      #Organization Setup
+      can :read, Client, :id => client_id
+      cannot [:new, :edit, :create], Client, :id => client_id
+
+      can :manage, ClientUser, :client_id => client_id
       can [:new, :create], ClientUser
       
-      can :manage, Branch, :concept => { :client => { :id => client_id } }
-      can [:new, :create], Branch, :concept => { :client => { :id => client_id } }
+      can :manage, Branch, :client_id => client_id  
+      can [:new, :create], Branch
+
+      can :manage, Concept, :client_id => client_id
+      can [:new, :create], Concept  
       
-      can :manage, Concept
-      can [:new, :create], Concept
-      
-      can :manage, Sale
+      can :manage, Role, :client_id => client_id
+      can [:new, :create], Role
+
+      #Sale Setup
+      can :manage, SaleCategory, :concept => { :client => { :id => client.id } }
+      can [:new, :create], SaleCategory
+
+      can :manage, SettlementType, :concept => { :client => {:id => client.id} }
+      can [:new, :create], SettlementType
+
+      can :manage, Server, :branch => { :concept => { :client => {:id => client.id} } }
+      can [:new, :create], Server
+
+
+      can :manage, Item, :client_id => client_id
+      can [:new, :create], Item
       
     when 'accounting'
       

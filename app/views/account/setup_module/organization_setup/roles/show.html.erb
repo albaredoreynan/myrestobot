@@ -1,19 +1,17 @@
 <%= render :partial => "/account/setup_module/organization_setup/partials/container_header" %>
-<h2>Restaurant</h2>
+<div class="container">
+<h2>Role</h2>
 <div class="well">
-  <h3>Restaurant Information</h3>
+  <h3>Role Information</h3>
   <dl class="dl-horizontal">
-	<dt>ID</dt>
-    <dd><%= @client.id %></dd>
     <dt>Name</dt>
-    <dd><%= @client.name %></dd>
-    <dt>Address</dt>
-    <dd><%= @client.address %></dd>
-	<dt>Contact Number</dt>
-    <dd><%= @client.contact_number %></dd>
+      <dd><%= @role.name %></dd>
   </dl>
 </div>
 
-<%= link_to "Edit", edit_account_setup_module_organization_setup_concept_path, :class => 'btn' %>
-<%= link_to "Delete", account_setup_module_organization_setup_concept_path(@concept), :confirm => 'Are you sure?', :method => :delete, :class => 'btn' %>
+<%= link_to "<i class='icon-chevron-left'></i> Back to Roles".html_safe, account_setup_module_organization_setup_roles_path, :class => 'btn' %>
+<%= link_to "<i class='icon-trash icon-white'></i> Delete".html_safe, account_setup_module_organization_setup_role_path(@role), :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-danger' %>
+<%= link_to "<i class='icon-edit'></i> Edit".html_safe, edit_account_setup_module_organization_setup_role_path, :class => 'btn' %>
+</div>
+<br/>
 <%= render :partial => "/account/setup_module/organization_setup/partials/container_footer" %>

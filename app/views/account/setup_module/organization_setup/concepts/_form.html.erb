@@ -1,7 +1,7 @@
 <%= semantic_form_for([:account, :setup_module, :organization_setup, @concept], :html => { :class => "form-horizontal" }) do |concept_f| %>
   <%= concept_f.semantic_errors %>
   <div class="well">
-	<%= concept_f.input :client_id, :as => :select, :collection => Client.all.map{ |b| [ b.name, b.id ] } %>
+	<%= concept_f.input :client_id, :as => :select, :collection => Client.accessible_by(current_ability).all.map{ |b| [ b.name, b.id ] } %>
     <%= concept_f.input :name %>
     <%= concept_f.input :address %>
     <%= concept_f.input :contact_number %>

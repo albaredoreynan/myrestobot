@@ -1,12 +1,13 @@
 
 class Account::SetupModule::OrganizationSetup::BranchesController < Account::SetupModule::OrganizationSetupController
+  
   load_and_authorize_resource
   
   set_tab :branches
   
   def index
-    @branches = Branch.order("updated_at")
-    @branches_grid = initialize_grid(Branch, :include => [:client, :concept])
+    @branches = Branch.accessible_by(current_ability).order("updated_at")
+    @branches_grid = initialize_grid(@branches, :include => [:client, :concept])
   end
   
   def show

@@ -5,8 +5,8 @@ class Account::SetupModule::OrganizationSetup::ClientsController < Account::Setu
   set_tab :clients
   
   def index
-    @clients = Client.order("updated_at")
-    @clients_grid = initialize_grid(Client, :name => "client_grid", :enable_export_to_csv => true, :csv_file_name => "clients")
+    @clients = Client.accessible_by(current_ability).order("updated_at")
+    @clients_grid = initialize_grid(@clients, :name => "client_grid", :enable_export_to_csv => true, :csv_file_name => "clients")
     
     export_grid_if_requested("client_grid" => "tasks_grid") do
       # usual render or redirect code executed if the request is not a CSV export request

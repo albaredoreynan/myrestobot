@@ -7,11 +7,11 @@ gem 'rails', '3.2.5'
 
 gem 'pg'
 gem 'devise'
-gem 'formtastic'
 gem 'will_paginate', '~> 3.0'
 gem 'wice_grid'
 gem 'sass-rails'
 gem 'breadcrumbs_on_rails'
+gem 'formtastic', " ~> 2.1.1"
 gem 'formtastic-bootstrap'
 gem 'tabs_on_rails'
 gem 'cocoon'

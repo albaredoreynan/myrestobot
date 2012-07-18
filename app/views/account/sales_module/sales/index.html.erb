@@ -9,7 +9,8 @@
         </div>
         <br/>
 		<%= grid(@sales_grid, :class => "row-fluid") do |g|
-			g.action_column
+			  if g.name == 'Mark'
+			  g.action_column
         g.column :column_name => 'Sale Date' do |sale|
     			sale.created_at.strftime("%-d-%b-%Y")
   			end
