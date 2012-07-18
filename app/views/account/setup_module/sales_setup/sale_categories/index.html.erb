@@ -1,12 +1,13 @@
 <%= render :partial => "/account/setup_module/sales_setup/partials/container_header" %>
         <div class="container-fluid">
 	      <div class="btn-toolbar">
+		    <% if can? :create, SaleCategory %> 
 		    <div class="btn-group pull-right">
 			  <a href="<%= new_account_setup_module_sales_setup_sale_category_path %>" class="btn btn-light-blue">
 			    <i class="icon-plus icon-white"></i> Create New Category
 			  </a>
 			</div>
-			
+			<% end %>
 		    <div class="btn-group btns-export pull-right">
 			  <a href="javascript:{}" onclick="<%= export_to_csv_javascript(@sale_categories_grid) %>" class="btn"><i class="icon-file"></i> Export to CSV</a>
 			  <a href="javascript:{}" onclick="<%= export_to_csv_javascript(@sale_categories_grid) %>" class="btn"><i class="icon-file"></i> Export to PDF</a>
@@ -28,13 +29,17 @@
   			g.column do |sale_category|
     			link_to "<i class='icon-eye-open'></i> View".html_safe, account_setup_module_sales_setup_sale_category_path(sale_category), :class => "btn btn-mini"
   			end
-
+           
   			g.column do |sale_category|
-				link_to "<i class='icon-edit'></i> Edit".html_safe, edit_account_setup_module_sales_setup_sale_category_path(sale_category), :class => "btn btn-mini"
+			    if can? :edit, sale_category	
+					link_to "<i class='icon-edit'></i> Edit".html_safe, edit_account_setup_module_sales_setup_sale_category_path(sale_category), :class => "btn btn-mini"
+				end
   			end
 
   			g.column do |sale_category|
-				link_to "<i class='icon-trash icon-white'></i> Delete".html_safe, account_setup_module_sales_setup_sale_category_path(sale_category), :confirm => 'Are you sure?', :method => :delete, :class => "btn btn-mini btn-danger"
+				if can? :delete, sale_category
+					link_to "<i class='icon-trash icon-white'></i> Delete".html_safe, account_setup_module_sales_setup_sale_category_path(sale_category), :confirm => 'Are you sure?', :method => :delete, :class => "btn btn-mini btn-danger"
+				end
   			end
 
 		end -%>

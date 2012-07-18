@@ -1,10 +1,13 @@
 
 class Account::SetupModule::SalesSetup::SettlementTypesController < Account::SetupModule::OrganizationSetupController
+  
+  load_and_authorize_resource
+
   set_tab :settlement_types
   
   def index
-    @settlement_types = SettlementType.order("updated_at")
-    @settlement_types_grid = initialize_grid(SettlementType, :include => [:concept], :name => "settlement_type_grid", :enable_export_to_csv => true, :csv_file_name => "settlement_types")
+    @settlement_types = SettlementType.accessible_by(current_ability).order("updated_at")
+    @settlement_types_grid = initialize_grid(@settlement_types, :include => [:concept], :name => "settlement_type_grid", :enable_export_to_csv => true, :csv_file_name => "settlement_types")
   end
   
   def show

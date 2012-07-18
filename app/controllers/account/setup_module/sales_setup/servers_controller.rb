@@ -1,10 +1,13 @@
 
 class Account::SetupModule::SalesSetup::ServersController < Account::SetupModule::OrganizationSetupController
+  
+  load_and_authorize_resource
+  
   set_tab :servers
   
   def index
-    @servers = Server.order("updated_at")
-    @servers_grid = initialize_grid(Server, :include => [:branch],  :name => "server_grid", :enable_export_to_csv => true, :csv_file_name => "servers")
+    @servers = Server.accessible_by(current_ability).order("updated_at")
+    @servers_grid = initialize_grid(@servers, :include => [:branch],  :name => "server_grid", :enable_export_to_csv => true, :csv_file_name => "servers")
   end
   
   def show
